@@ -1,0 +1,22 @@
+resilience4j.circuitbreaker:
+    instances:
+        myconfig2:
+            slidingWindowSize: 10
+            permittedNumberOfCallsInHalfOpenState: 5
+            waitDurationInOpenState: 5000
+            failureRateThreshold: 30
+            registerHealthIndicator: true
+            automatic-transition-from-open-to-half-open-enabled: true
+            record-exceptions:
+            - org.springframework.web.client.HttpServerErrorException
+            - org.springframework.web.client.HttpClientErrorException.TooManyRequests
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health: 
+      show-details: "ALWAYS"

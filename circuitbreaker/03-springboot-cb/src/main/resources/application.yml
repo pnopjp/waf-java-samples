@@ -1,0 +1,8 @@
+server:
+  error:
+    include-stacktrace : NEVER
+
+logging:
+  level:
+    org.springframework.retry: TRACE
+    

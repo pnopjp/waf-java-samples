@@ -1,0 +1,5 @@
+my:
+  retry:
+    delay: 1000
+    maxAttempts: 5
+    multiplier: 2.0

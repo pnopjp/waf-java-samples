@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  emulator:
+   image: mcr.microsoft.com/azure-storage/azurite
+   ports:
+     - "10000:10000"
+     - "10001:10001"
+     - "10002:10002"
+   volumes:
+     - ~/azurite:/data
+   extra_hosts:
+      - "host.docker.internal:host-gateway"
+  frontend:
+    depends_on: 
+     - emulator
+    image: waf-sample/frontend-webapp
+    build:
+      context: ./frontend-webapp
+      dockerfile: Dockerfile
+    environment:
+      - MY_APPLICATION_CONNECTION_STRING=${CONNECTION_STRING}
+    ports:
+      - "10080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  backend:
+    depends_on: 
+      - emulator
+    image: waf-sample/backend-function
+    build:
+      context: ./backend-function
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionString=${CONNECTION_STRING}
+      - AzureWebJobsConnectionString=${CONNECTION_STRING}

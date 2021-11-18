@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  emulator:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - ~/azurite:/data
+  producer:
+    depends_on: 
+      - emulator
+    image: waf-sample/producer-webapp
+    build:
+      context: ./producer-webapp
+      dockerfile: Dockerfile
+    environment:
+      - MY_APPLICATION_CONNECTION_STRING=${CONNECTION_STRING}
+    ports:
+      - "10080:8080"
+  consumer:
+    depends_on: 
+      - emulator
+    image: waf-sample/consumer-function
+    build:
+      context: ./consumer-function
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionString=${CONNECTION_STRING}
+      - AzureWebJobsConnectionString=${CONNECTION_STRING}

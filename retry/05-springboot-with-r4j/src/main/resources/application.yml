@@ -1,0 +1,9 @@
+resilience4j:
+  retry:
+    instances:
+      helloService:
+        max-attempts: 5
+        wait-duration: 3s
+        retry-exceptions:
+          - java.io.IOException
+
