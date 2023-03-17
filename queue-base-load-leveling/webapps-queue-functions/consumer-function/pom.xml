@@ -10,9 +10,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <azure.functions.maven.plugin.version>1.14.0</azure.functions.maven.plugin.version>
-        <azure.functions.java.library.version>1.4.2</azure.functions.java.library.version>
+        <java.version>17</java.version>
+        <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
+        <azure.functions.java.library.version>2.2.0</azure.functions.java.library.version>
         <functionAppName>consumer-function-20211012200706420</functionAppName>
     </properties>
 

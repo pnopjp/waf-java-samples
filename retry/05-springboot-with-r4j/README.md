@@ -24,7 +24,7 @@ Spring Boot と Resilience4j を組み合わせたリトライサンプルです
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot2</artifactId>
-            <version>1.7.1</version>
+            <version>2.0.2</version>
         </dependency>
 ```
 

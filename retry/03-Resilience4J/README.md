@@ -27,7 +27,7 @@ Resilience4j の リトライライブラリを利用しています。
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-retry</artifactId>
-            <version>1.7.1</version>
+            <version>2.0.2</version>
         </dependency>
 ```
 
