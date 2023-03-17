@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.5</version>
+        <version>2.7.9</version>
         <relativePath /> 
     </parent>
     <groupId>org.pnop.waf.sample</groupId>
@@ -12,7 +12,7 @@
     <version>1.0.0</version>
     <name>Asynchronous Request Reply Web Apps</name>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -22,12 +22,12 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-queue</artifactId>
-            <version>12.11.1</version>
+            <version>12.16.0</version>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.11.1</version>
+            <version>12.21.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

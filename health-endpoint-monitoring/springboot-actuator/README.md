@@ -82,7 +82,7 @@ curl http://localhost:8080/health/ping
 }
 ```
 
-`/health/4c735208-8bd6-4271-9020-1acbcc79b052` を呼び出します。URLは用意に推測されないようになっています。
+`/health/4c735208-8bd6-4271-9020-1acbcc79b052` を呼び出します。URLは容易に推測されないようになっています。
 
 ```
  curl -i http://localhost:8080/health/4c735208-8bd6-4271-9020-1acbcc79b052
@@ -232,4 +232,4 @@ curl http://localhost:8080/actuator/health/MyApplication
 
 > :exclamation: レスポンスは見やすさのためフォーマットしてあります
 
-ブラウザで http://localhost:8080/actuator/` にアクセスすると
+以上
