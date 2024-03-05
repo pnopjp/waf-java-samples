@@ -29,8 +29,8 @@ The following prerequisites are required to run this sample. The sample executio
 - [Maven 3.8](https://maven.apache.org/index.html) or later
 - curl (Some samples)
 - [Azure Storge Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) or Azurite Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm) (Some samples)
-- [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)（一部サンプル）
-- Docker / Docker Compose （一部サンプル、なくても実行はできますが環境構築が簡単になります）
+- [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)（Some samples)
+- Docker / Docker Compose (Some samples. Can be run without Docker, but easier)
  
 ## External Service to be used
 
@@ -54,7 +54,6 @@ This sample was tested in the following environments
 - The information in this sample is current as of the date this sample was prepared.
 - The information is subject to change due to changes in circumstances.
 - We are not responsible for any indirect, incidental, or consequential damages (including loss of business opportunities or business information) incurred by you, your affiliates, or any third party in connection with the use of this sample.
-
 
 This sample is released under the [MIT License](./LICENSE.txt)
 
