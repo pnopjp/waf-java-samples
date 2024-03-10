@@ -8,7 +8,7 @@ Spring Cloud Circuit Breaker によって提供されたサーキットブレー
 
 ## 前提条件
 
-- Java 11 以降
+- Java 17 以降
 - Maven 3.6 以降
 - HTTP エンドポイントを呼び出すために、`curl` を利用します。
 
@@ -52,7 +52,7 @@ mvn spring-boot:run
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.5.5)
 
-2021-10-11 14:03:12.082  INFO 22471 --- [           main] o.p.w.s.cb.sb.r4j.SampleApplication      : Starting SampleApplication using Java 11.0.11 on NICKEL with PID 22471 (/work/waf-java-samples/circuitbreaker/04-springboot-cb-r4j/target/classes started by moris in /work/waf-java-samples/circuitbreaker/04-springboot-cb-r4j)
+2021-10-11 14:03:12.082  INFO 22471 --- [           main] o.p.w.s.cb.sb.r4j.SampleApplication      : Starting SampleApplication using Java 17.0.11 on NICKEL with PID 22471 (/work/waf-java-samples/circuitbreaker/04-springboot-cb-r4j/target/classes started by moris in /work/waf-java-samples/circuitbreaker/04-springboot-cb-r4j)
 2021-10-11 14:03:12.090  INFO 22471 --- [           main] o.p.w.s.cb.sb.r4j.SampleApplication      : No active profile set, falling back to default profiles: default
 2021-10-11 14:03:14.859  INFO 22471 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=dc13a1f0-731b-3a8e-9bc3-ef28ee6e6c54
 2021-10-11 14:03:16.618  INFO 22471 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)

@@ -2,6 +2,14 @@
 
 [日本語|Japanese](./README_ja.md)
 
+### Update 2024/03
+
+- Updated dependent libraries (azure sdk ...)
+- Updated azure libraries and azure functions libraries
+- Update Spring Boot Version 2.7.9 to 3.2.3
+- Add some english documentation (Other pages will be prepared in the future)
+- Updated related links.
+
 ### Update 2023/03
 
 - Updated dependent libraries
@@ -29,7 +37,7 @@ The following prerequisites are required to run this sample. The sample executio
 - [Maven 3.8](https://maven.apache.org/index.html) or later
 - curl (Some samples)
 - [Azure Storge Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) or Azurite Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm) (Some samples)
-- [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)（Some samples)
+- [Azure Functions Core Tools](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)（Some samples)
 - Docker / Docker Compose (Some samples. Can be run without Docker, but easier)
  
 ## External Service to be used
@@ -42,11 +50,11 @@ Here is a sample that uses a Web service that returns arbitrary status codes as 
 
 This sample was tested in the following environments
 
-- Ubuntu20.04 on Windows 11 WSL2 environment
-- OpenJDK Runtime Environment Microsoft-32931 (build 17.0.3+7-LTS)
-- Apache Maven 3.8.3
+- Ubuntu23.10 on Windows 11 WSL2 environment
+- OpenJDK Runtime Environment Microsoft-8902769 (build 17.0.10+7-LTS)
+- Apache Maven 3.9.4
 - Eclipse IDE for Java Developers (2021-3)
-- Visual Studio Code 1.76.0 
+- Visual Studio Code 1.86.0 
 - Docker Desktop fo Windows v20.10.8
 
 ## Terms of Use

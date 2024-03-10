@@ -1,20 +1,22 @@
-# Spring Boot + Spring Retry のリトライサンプル
+# Spring Boot + Spring Retry Retry Sample
 
-Spring Boot と Spring Retry を組み合わせたリトライサンプルです。
+[日本語|Japanese](./README_ja.md)
 
-## 概要
+This is a retry sample combining Spring Boot and Spring Retry.
 
-Spring Boot と Spring Retry を組み合わせたリトライサンプルです。リトライアノテーションで宣言的に利用する方法と、`RetryTemplate` を利用しプログラムから操作する2種類のサンプルを紹介します。
+## Overview
 
-## 前提条件
+This is a retry sample combining Spring Boot and Spring Retry. We introduce two types of samples: a declarative usage method with retry annotations and an operation from a program using `RetryTemplate`.
 
-- Java 11 以降
-- Maven 3.6 以降
-- HTTP エンドポイントを呼び出すために、`curl` を利用します。
+## Prerequisites
 
-## 依存ライブラリ
+- Java 17 or later
+- Maven 3.6 or later
+- Use `curl` to call the HTTP endpoint.
 
-`spring-boot-starter-web` 以外に、以下のライブラリが必要です。詳細は、`pom.xml` を参照してください。
+## Dependent Libraries
+
+In addition to `spring-boot-starter-web`, the following libraries are required. For details, please refer to `pom.xml`.
 
 ```xml
         <dependency>
@@ -27,20 +29,20 @@ Spring Boot と Spring Retry を組み合わせたリトライサンプルです
         </dependency>
 ```
 
-## ビルドおよび実行方法
+## Building and Running Method
 
-以下のコマンドでビルドします。
+Build with the following command.
 
 ```
-mvn clean package 
+mvn clean package
 ```
-以下のコマンドでSpring Boot アプリケーションを起動します。 
+Start the Spring Boot application with the following command.
 
 ```
 mvn spring-boot:run
 ```
 
-以下のようなログが表示され、アプリケーションが起動します。
+The following logs will be displayed and the application will start.
 
 ```log
   .   ____          _            __ _ _
@@ -51,7 +53,7 @@ mvn spring-boot:run
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.5.4)
 
-2021-09-15 17:54:34.609  INFO 560 --- [           main] c.e.r.springboot.SpringbootApplication   : Starting SpringbootApplication using Java 11.0.11 on NICKEL with PID 560 (/work/waf-java-samples/retry/04-springboot/target/classes started by moris in /work/waf-java-samples/retry/04-springboot)
+2021-09-15 17:54:34.609  INFO 560 --- [           main] c.e.r.springboot.SpringbootApplication   : Starting SpringbootApplication using Java 17.0.11 on NICKEL with PID 560 (/work/waf-java-samples/retry/04-springboot/target/classes started by moris in /work/waf-java-samples/retry/04-springboot)
 2021-09-15 17:54:34.614  INFO 560 --- [           main] c.e.r.springboot.SpringbootApplication   : No active profile set, falling back to default profiles: default
 2021-09-15 17:54:38.178  INFO 560 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
 2021-09-15 17:54:38.216  INFO 560 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
@@ -62,37 +64,37 @@ mvn spring-boot:run
 2021-09-15 17:54:39.772  INFO 560 --- [           main] c.e.r.springboot.SpringbootApplication   : Started SpringbootApplication in 6.577 seconds (JVM running for 7.364)
 ```
 
-**ポートを変更したい場合は**、コマンドラインに以下の引数を付加して実行してください。
+**If you want to change the port**, please execute it by adding the following argument to the command line.
 
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8888
 ```
 
-## アプリケーションへの操作
+## Operation to the Application
 
-エンドポイントを呼び出し、アプリケーションログを見てリトライの挙動を確認します。
+Call the endpoint and check the retry behavior in the application log.
 
-### 単純なリトライ
+### Simple Retry
 
-`/hello1` を呼び出します。
+Call `/hello1`.
 
 ```sh
 curl http://localhost:8080/hello1?name=spring-boot
 ```
 
-アノテーションの指示は、以下の通りです。
-- 最大試行回数4回（リトライ回数3回）
-- `IOException` をリトライ対象
-- リトライ間隔 3秒 × 2^（リトライ回数）
+The instructions for the annotation are as follows:
+- Maximum of 4 attempts (3 retries)
+- `IOException` as the target for retry
+- Retry interval is 3 seconds × 2^(retry count)
 
 ```java
     @Retryable(
-        value = { IOException.class }, 
-        maxAttempts = 4, 
+        value = { IOException.class },
+        maxAttempts = 4,
         backoff = @Backoff(delay = 3000, multiplier = 2))
 ```
 
-最後まで失敗した場合のログは以下の通りで、4回実行され、それそれのリトライ間隔が3秒、6秒、12秒、24秒となります。
+The log when it fails to the end is as follows, and it is executed 4 times, and the retry intervals are 3 seconds, 6 seconds, 12 seconds, and 24 seconds, respectively.
 
 ```log
 2021-09-15 20:28:30.132  INFO 1228 --- [nio-8080-exec-3] c.e.retry.springboot.HelloController     : hello1
@@ -102,7 +104,7 @@ curl http://localhost:8080/hello1?name=spring-boot
 2021-09-15 20:28:51.134  INFO 1228 --- [nio-8080-exec-3] c.e.r.springboot.services.HelloService   : sayHello
 ```
 
-例外をスローするメソッドが `HelloService.java` に存在します。 ランダムで例外をスローしていますが、挙動を変更したしたい場合は適宜変更してください。`1.0` にすれば常に例外がスローされます。 
+There is a method that throws an exception in `HelloService.java`. It throws an exception randomly, but if you want to change the behavior, please change it as appropriate. If you set it to `1.0`, an exception will always be thrown.
 
 ```java
     private static void someFunction() throws IOException {
@@ -113,23 +115,23 @@ curl http://localhost:8080/hello1?name=spring-boot
     }
 ```
 
-### リカバリー
+### Recovery
 
-`/hello2` を呼び出します。
+Call `/hello2`.
 
 ```sh
 curl http://localhost:8080/hello2?name=spring-boot
 ```
-リトライ間隔はアノテーションで指定されたとおり、最大試行回数3回、2秒ごとの等間隔にリトライが実施されます。
+As specified in the annotation, the retry interval is executed at equal intervals every 2 seconds, with a maximum of 3 attempts.
 
 ```java
     @Retryable(
-        value = { IOException.class }, 
-        maxAttempts = 3, 
+        value = { IOException.class },
+        maxAttempts = 3,
         backoff = @Backoff(delay = 2000))
 ```
 
-ログの実行時間を確認すると2秒ごとに実行されていることが分ります。また最後まで失敗した場合、`@Recover` アノテーションが指定されているメソッドが呼び出されます。
+You can see from the execution time in the log that it is executed every 2 seconds. Also, if it fails to the end, the method specified with the `@Recover` annotation will be called.
 
 ```log
 2021-09-15 20:48:39.212  INFO 1393 --- [nio-8080-exec-8] c.e.r.s.s.HelloServiceWithRecover        : sayHello
@@ -138,16 +140,16 @@ curl http://localhost:8080/hello2?name=spring-boot
 2021-09-15 20:48:43.213  INFO 1393 --- [nio-8080-exec-8] c.e.r.s.s.HelloServiceWithRecover        : recover : spring-boot
 ```
 
-### リトライテンプレート
+### Retry Template
 
-`hello3` を呼び出します。
+Call `/hello3`.
 
 ```sh
 curl http://localhost:8080/hello3?name=spring-boot
 ```
 
-`RetryTemplateConfig.java` で構成されたリトライテンプレートを使用してリトライします。それに加えて、カスタムリスナーを登録してログを記録しています。
-プログラムの記述通り、最大試行回数3回、初期間隔2秒、リトライ間隔 2×2^(リトライ回数) となります。
+Retry using the retry template configured in `RetryTemplateConfig.java`. In addition, we register a custom listener and record logs.
+As described in the program, the maximum number of attempts is 3, the initial interval is 2 seconds, and the retry interval is 2×2^(retry count).
 
 ```log
 2021-09-15 20:53:43.837  INFO 1504 --- [nio-8080-exec-1] c.e.retry.springboot.HelloController     : hello3
@@ -162,17 +164,17 @@ curl http://localhost:8080/hello3?name=spring-boot
 2021-09-15 20:53:49.869  INFO 1504 --- [nio-8080-exec-1] .RetryTemplateConfig$CustomRetryListener : close
 ```
 
-## リトライ構成の外部化について
+## About Externalization of Retry Configuration
 
-サンプル説明では、リトライに関連するパラメータをハードコーディングしてありますが、プロダクションコードではこのような実装は避けてください。
+In the sample explanation, the parameters related to retry are hard-coded, but please avoid such implementation in production code.
 
-`HelloService` には使用されていませんが、外部からパラメータを与えるサンプルが実装されています。
+Although it is not used in `HelloService`, a sample that takes parameters from outside is implemented.
 
-以下の例では外部に設定されたプロパティ（例えば、`application.yml` 、環境変数など） から値を参照します。本サンプルでは `resoueces/applicaiton.yml` に定義してありますが、これもロケーションの変更は可能です。様々な設定方法があるため詳細はリファレンスを参照してください。
+In the following example, it refers to the value from the property set externally (for example, `application.yml`, environment variables, etc.). In this sample, it is defined in `resources/application.yml`, but this location can also be changed. Since there are various setting methods, please refer to the reference for details.
 
 ```java
     @Retryable(
-        value = { IOException.class },  
+        value = { IOException.class },
         maxAttemptsExpression = "${my.retry.maxAttempts}",
         backoff = @Backoff(delayExpression = "${my.retry.delay}",
                            multiplierExpression= "${my.retry.multiplier}"))
@@ -183,10 +185,10 @@ curl http://localhost:8080/hello3?name=spring-boot
     }
 ```
 
-# 参考リンク
+## References
 
-[Retry](https://docs.spring.io/spring-batch/docs/current/reference/html/retry.html)
-[Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.external-config)
-[spring-projects/spring-retry](https://github.com/spring-projects/spring-retry)
+- [Retry](https://docs.spring.io/spring-batch/docs/current/reference/html/retry.html)
+- [Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.external-config)
+- [spring-projects/spring-retry](https://github.com/spring-projects/spring-retry)
 
-以上
+EOF

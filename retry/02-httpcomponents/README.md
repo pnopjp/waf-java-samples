@@ -13,7 +13,7 @@ Apache HttpComponets を利用したリトライサンプルです。
 
 ## 前提
 
-- Java 11 以降
+- Java 17 以降
 - Maven 3.6 以降
 
 ## 依存ライブラリ

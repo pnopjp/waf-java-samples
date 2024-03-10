@@ -4,7 +4,7 @@ Spring Boot と Azure Storage キュー、および Azure Functions を利用し
 
 ## 前提条件
 
-- Java 11 以降
+- Java 17 以降
 - Maven 3.8 以降
 - [Azure Storge エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) または [Azurite エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm) 
 - [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)
@@ -76,7 +76,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=10080
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.5.5)
 
-2021-10-19 21:49:34.461  INFO 15905 --- [  restartedMain] o.p.waf.sample.lv.sb.SampleApplication   : Starting SampleApplication using Java 11.0.12 on NICKEL with PID 15905 (/work/waf-java-samples/queue-base-load-leveling/webapps-queue-functions/producer-webapp/target/classes started by moris in /work/waf-java-samples/queue-base-load-leveling/webapps-queue-functions/producer-webapp)
+2021-10-19 21:49:34.461  INFO 15905 --- [  restartedMain] o.p.waf.sample.lv.sb.SampleApplication   : Starting SampleApplication using Java 17.0.12 on NICKEL with PID 15905 (/work/waf-java-samples/queue-base-load-leveling/webapps-queue-functions/producer-webapp/target/classes started by moris in /work/waf-java-samples/queue-base-load-leveling/webapps-queue-functions/producer-webapp)
 2021-10-19 21:49:34.474  INFO 15905 --- [  restartedMain] o.p.waf.sample.lv.sb.SampleApplication   : No active profile set, falling back to default profiles: default
 2021-10-19 21:49:34.751  INFO 15905 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
 2021-10-19 21:49:40.161  INFO 15905 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
@@ -167,7 +167,7 @@ producer_1  |   '  |____| .__|_| |_|_| |_\__, | / / / /
 producer_1  |  =========|_|==============|___/=/_/_/_/
 producer_1  |  :: Spring Boot ::                (v2.5.5)
 producer_1  |
-producer_1  | 2021-10-19 08:45:32.423  INFO 1 --- [           main] o.p.waf.sample.lv.sb.SampleApplication   : Starting SampleApplication v0.0.1-SNAPSHOT using Java 11.0.12 on 6b8b40a59798 with PID 1 (/app.jar started by root in /)
+producer_1  | 2021-10-19 08:45:32.423  INFO 1 --- [           main] o.p.waf.sample.lv.sb.SampleApplication   : Starting SampleApplication v0.0.1-SNAPSHOT using Java 17.0.12 on 6b8b40a59798 with PID 1 (/app.jar started by root in /)
 producer_1  | 2021-10-19 08:45:32.427  INFO 1 --- [           main] o.p.waf.sample.lv.sb.SampleApplication   : The following profiles are active: docker
 producer_1  | 2021-10-19 08:45:33.700  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
 producer_1  | 2021-10-19 08:45:33.718  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
