@@ -2,7 +2,7 @@
 
 ## 前提条件
 
-- Java 11 以降
+- Java 17 以降
 - Maven 3.8 以降
 - [Azure Storge エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) または [Azurite エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm) 
 - [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)
@@ -73,7 +73,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=10080
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.5.5)
 
-2021-10-22 17:04:56.268  INFO 7075 --- [           main] o.p.w.sample.async.sb.SampleApplication  : Starting SampleApplication using Java 11.0.12 on NICKEL with PID 7075 (/work/waf-java-samples/asynchronous-request-reply/webapps-queue-functions-blob/frontend-webapp/target/classes started by moris in /work/waf-java-samples/asynchronous-request-reply/webapps-queue-functions-blob/frontend-webapp)
+2021-10-22 17:04:56.268  INFO 7075 --- [           main] o.p.w.sample.async.sb.SampleApplication  : Starting SampleApplication using Java 17.0.12 on NICKEL with PID 7075 (/work/waf-java-samples/asynchronous-request-reply/webapps-queue-functions-blob/frontend-webapp/target/classes started by moris in /work/waf-java-samples/asynchronous-request-reply/webapps-queue-functions-blob/frontend-webapp)
 2021-10-22 17:04:56.279  INFO 7075 --- [           main] o.p.w.sample.async.sb.SampleApplication  : No active profile set, falling back to default profiles: default
 2021-10-22 17:05:00.304  INFO 7075 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
 2021-10-22 17:05:00.334  INFO 7075 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
@@ -167,7 +167,7 @@ frontend_1  |   '  |____| .__|_| |_|_| |_\__, | / / / /
 frontend_1  |  =========|_|==============|___/=/_/_/_/
 frontend_1  |  :: Spring Boot ::                (v2.5.5)
 frontend_1  |
-frontend_1  | 2021-10-22 08:10:38.887  INFO 1 --- [           main] o.p.w.sample.async.sb.SampleApplication  : Starting SampleApplication v1.0.0 using Java 11.0.12 on bf1571b3a35e with PID 1 (/app.jar started by root in /)
+frontend_1  | 2021-10-22 08:10:38.887  INFO 1 --- [           main] o.p.w.sample.async.sb.SampleApplication  : Starting SampleApplication v1.0.0 using Java 17.0.12 on bf1571b3a35e with PID 1 (/app.jar started by root in /)
 frontend_1  | 2021-10-22 08:10:38.890  INFO 1 --- [           main] o.p.w.sample.async.sb.SampleApplication  : No active profile set, falling back to default profiles: default
 frontend_1  | 2021-10-22 08:10:40.037  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
 frontend_1  | 2021-10-22 08:10:40.052  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]

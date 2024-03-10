@@ -1,26 +1,26 @@
-# リトライサンプル
+# Retry Samples  
 
-Microsoft Azure Well-Architected Framework に基づくクラウドデザインパターン実装編 (Java/Spring Boot版) のリトライサンプル集です。
+[日本語|Japanese](./README_ja.md)
+   
+This is a collection of retry samples for cloud design patterns implementation based on the Microsoft Azure Well-Architected Framework (Java/Spring Boot version).  
+   
+## Sample List  
+   
+The following are the executable samples:  
+   
+| Sample Name                                             | Overview                                                                     |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [01-general](./01-general/README.md)                    | Sample implemented in Java independently                                     |
+| [02-httpcomponents](./02-httpcomponents/README.md)      | HTTP request retry sample using Apache HttpComponents                        |
+| [03-Resilience4j](./03-Resilience4J/README.md)          | Retry sample using Resilience4J Retry                                        |
+| [04-springboot](./04-springboot/README.md)              | Sample using annotations and retry templates by Spring Retry and Spring Boot |
+| [05-springboot-r4j](./05-springboot-with-r4j/README.md) | Sample using annotations and retry templates by Spring Retry and Spring Boot |
+   
+## Reference Links  
+   
+* [Retry pattern - Azure Architecture Center | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)
+* [Transient fault handling - Best practices for cloud applications | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/best-practices/transient-faults)
+* [Azure service retry guidance - Best practices for cloud applications | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/best-practices/retry-service-specific)
+* [Retry Storm antipattern - Performance antipatterns for cloud apps | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/antipatterns/retry-storm/)
 
-## サンプル一覧
-
-実行可能なサンプルは以下の通りです。
-
-| サンプル名 | 概要 |
-|---|---|
-| [01-general](./01-general/README.md)| 独自にJavaで実装したンプル |
-| [02-httpcomponents](./02-httpcomponents/README.md)| Apache HttpComponents による HTTPリクエストのリトライサンプル|
-| [03-Resilience4j](./03-Resilience4J/README.md) | Resilience4J Retry を利用したリトライサンプル|
-| [04-springboot](./04-springboot/README.md) | Spring Retry と Spring Boot によるアノテーションやリトライテンプレートを利用したサンプル |
-| [05-springboot-r4j](./05-springboot-with-r4j/README.md) | Spring Retry と Spring Boot によるアノテーションやリトライテンプレートを利用したサンプル |
-
-## 参考リンク
-
-* [再試行パターン - Cloud Design Patterns | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/patterns/retry)
-* [再試行の一般的なガイダンス - Best practices for cloud applications | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/best-practices/transient-faults)
-* [Azure サービスの再試行ガイダンス - Best practices for cloud applications | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/best-practices/retry-service-specific)
-* [再試行ストームのアンチパターン - Performance antipatterns for cloud apps | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/antipatterns/retry-storm/)
-  
-以上
-
-
+EOF

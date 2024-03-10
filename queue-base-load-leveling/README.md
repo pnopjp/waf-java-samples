@@ -1,18 +1,20 @@
-# キューベースの負荷平準化サンプル
+# Queue-Based Load Leveling Sample
 
-Microsoft Azure Well-Architected Framework に基づくクラウドデザインパターン実装編 (Java/Spring Boot版) のキューベースの負荷平準化パターンのサンプルです。
+[日本語|Japanese](./README_ja.md)
 
-## サンプル一覧
+This is a sample of the queue-based load leveling pattern implementation, based on the Microsoft Azure Well-Architected Framework (Java/Spring Boot version).
 
-実行可能なサンプルは以下の通りです。
+## Sample List
 
-| サンプル名 | 概要 |
-|---|---|
-| [webapps-queue-functions](./webapps-queue-functions/README.md)| WebApps と Azure Storage キュー、および Azure Functionsキュートリガーを組み合わせて実装したサンプル |
+The following are the executable samples.
 
-## 参考リンク
+| Sample Name                                                    | Overview                                                                                          |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [webapps-queue-functions](./webapps-queue-functions/README.md) | A sample implemented by combining WebApps, Azure Storage Queue, and Azure Functions Queue Trigger |
 
-- [キュー ベースの負荷平準化パターン - Cloud Design Patterns | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/patterns/queue-based-load-leveling)
-- [Azure メッセージング サービスの比較 - Azure Event Grid | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/event-grid/compare-messaging-services)
+## Reference Links
 
-以上
+- [Queue-Based Load Leveling pattern - Azure Architecture Center | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/patterns/queue-based-load-leveling)
+- [Compare Azure messaging services - Azure Service Bus | Microsoft Learn](https://learn.microsoft.com/en-us/azure/service-bus-messaging/compare-messaging-services)
+
+End of the text.

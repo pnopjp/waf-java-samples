@@ -1,10 +1,11 @@
 package org.pnop.waf.sample.lv.sb;
 
-import javax.annotation.PostConstruct;
 
 import com.azure.storage.queue.QueueClient;
 import com.azure.storage.queue.QueueClientBuilder;
 import com.azure.storage.queue.QueueMessageEncoding;
+
+import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

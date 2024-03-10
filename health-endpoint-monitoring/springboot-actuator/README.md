@@ -4,7 +4,7 @@ Spring Boot をベースとした正常性エンドポイントのサンプル�
 
 ## 前提条件
 
-- Java 11 以降
+- Java 17 以降
 - Maven 3.8 以降
 - HTTP エンドポイントを呼び出すために、`curl` を利用します。
 
@@ -43,7 +43,7 @@ mvn spring-boot:run
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.5.5)
 
-2021-10-18 23:01:19.895  INFO 22452 --- [  restartedMain] o.p.waf.sample.act.sb.SampleApplication  : Starting SampleApplication using Java 11.0.11 on NICKEL with PID 22452 (/work/waf-java-samples/health-endpoint-monitoring/springboot-act/target/classes started by moris in /work/waf-java-samples/health-endpoint-monitoring/springboot-act)
+2021-10-18 23:01:19.895  INFO 22452 --- [  restartedMain] o.p.waf.sample.act.sb.SampleApplication  : Starting SampleApplication using Java 17.0.11 on NICKEL with PID 22452 (/work/waf-java-samples/health-endpoint-monitoring/springboot-act/target/classes started by moris in /work/waf-java-samples/health-endpoint-monitoring/springboot-act)
 2021-10-18 23:01:19.904  INFO 22452 --- [  restartedMain] o.p.waf.sample.act.sb.SampleApplication  : No active profile set, falling back to default profiles: default
 2021-10-18 23:01:20.103  INFO 22452 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-10-18 23:01:20.103  INFO 22452 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'

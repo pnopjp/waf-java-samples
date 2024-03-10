@@ -1,18 +1,21 @@
-# 正常性エンドポイントの監視サンプル
+# Monitoring Health Endpoint Sample
 
-Microsoft Azure Well-Architected Framework に基づくクラウドデザインパターン実装編 (Java/Spring Boot版) の正常性エンドポイントの監視のサンプルです。
+[日本語|Japanese](./README_ja.md)
 
-## サンプル一覧
 
-実行可能なサンプルは以下の通りです。
+This is a sample of monitoring the health endpoint, part of the cloud design pattern implementation based on the Microsoft Azure Well-Architected Framework (Java/Spring Boot version).
 
-| サンプル名 | 概要 |
-|---|---|
-| [springboot-actuator](./springboot-actuator/README.md)| 単純なエンドポイントと、Spring Actuator をで実装したサンプル |
+## List of Samples
 
-## 参考リンク
+The executable samples are as follows.
 
-* [正常性エンドポイントの監視パターン - Cloud Design Patterns | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/patterns/health-endpoint-monitoring)
-* [正常性の監視 | Microsoft Docs](https://docs.microsoft.com/ja-jp/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health)
+| Sample Name                                            | Description                                                     |
+| ------------------------------------------------------ | --------------------------------------------------------------- |
+| [springboot-actuator](./springboot-actuator/README.md) | A sample implemented with a simple endpoint and Spring Actuator |
 
-以上
+## Reference Links
+
+- [Health Endpoint Monitoring pattern - Azure Architecture Center | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)
+- [Health monitoring - .NET | Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health)
+
+EOF

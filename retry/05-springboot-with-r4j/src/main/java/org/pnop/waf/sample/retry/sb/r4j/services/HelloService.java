@@ -2,14 +2,13 @@ package org.pnop.waf.sample.retry.sb.r4j.services;
 
 import java.io.IOException;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import io.github.resilience4j.retry.RetryRegistry;
 import io.github.resilience4j.retry.annotation.Retry;
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class HelloService {
@@ -36,6 +35,7 @@ public class HelloService {
         }
     }
 
+    @SuppressWarnings("unused")
     private String fallBackMethod(String name, Exception e) {
         logger.info("fallback : {}, {}", name, e.getMessage());
         return "fallback";

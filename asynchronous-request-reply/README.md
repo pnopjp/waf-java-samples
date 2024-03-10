@@ -1,15 +1,17 @@
-# 非同期応答パターン
+# Asynchronous Response Patterns
 
-Microsoft Azure Well-Architected Framework に基づくクラウドデザインパターン実装編 (Java/Spring Boot版) の非同期応答パターンのサンプルです。
+[日本語|Japanese](./README_ja.md)
 
-## サンプル一覧
+This is a sample of the Asynchronous Response Pattern in the implementation of cloud design patterns based on the Microsoft Azure Well-Architected Framework (Java/Spring Boot edition).
 
-実行可能なサンプルは以下の通りです。
+## List of Samples
 
-| サンプル名 | 概要 |
-|---|---|
-| [webapps-queue-functions-blob](./webapps-queue-functions-blob/README.md)| WebApps と Azure Storage キューとBLOB および Azure Functionsキュートリガーを組み合わせて実装したサンプル |
+The following are the executable samples.
 
-## 参考リンク
+| Sample Name                                                              | Overview                                                                                                      |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| [webapps-queue-functions-blob](./webapps-queue-functions-blob/README.md) | A sample implemented by combining WebApps and Azure Storage queue and BLOB and Azure Functions queue triggers |
 
-- [非同期要求-応答パターン - Azure Architecture Center | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/architecture/patterns/async-request-reply)
+## Reference Links
+
+- [Asynchronous Request-Reply pattern - Azure Architecture Center | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/patterns/async-request-reply)
