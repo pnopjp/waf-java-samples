@@ -1,44 +1,45 @@
-# 非同期応答パターン
+# Asynchronous Response Pattern
 
-## 前提条件
+## Prerequisites
 
-- Java 17 以降
-- Maven 3.8 以降
-- [Azure Storge エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) または [Azurite エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm) 
-- [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)
-- もしくはDocker実行環境（Azure Storage エミュレータとAzure Functions Core ツールのインストールが不要になります）
+- Java 17 or later
+- Maven 3.8 or later
+- [Azure Storage Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) or [Azurite Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm)
+- [Azure Functions Core Tools](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)
+- Or a Docker runtime environment (installation of Azure Storage Emulator and Azure Functions Core Tools is not required)
 
-## サンプルの構成
+## Sample Structure
 
-本サンプルは4つのコンポーネントで構成されています。ただし、キューとBLOBは同一のエミュレータ上で動作します。
+This sample consists of four components. However, the queue and BLOB operate on the same emulator.
 
-1. フロントエンド Web アプリケーション
-2. Azure Storage キュー 
-3. バックエンド Azure Functions アプリケーション
+1. Frontend Web Application
+2. Azure Storage Queue
+3. Backend Azure Functions Application
 4. Azure Storage BLOB
 
-フロントエンド Web アプリケーションは Spring Boot で実装されており、外部からのリクエストを元にタスクを生成し、キューにメッセージを送信します。
+The frontend web application is implemented with Spring Boot, generates tasks based on external requests, and sends messages to the queue.
 
-Azure Storage キューは、Azurite エミュレータを利用しており、タスクを非同期化します。
+The Azure Storage Queue uses the Azurite Emulator to handle tasks asynchronously.
 
-バックエンド Azure Functions アプリケーションはキュートリガーで実装しており、キューからメッセージを受信し順次タスクを実行し、その実行結果をAzure Storage BLOB に格納します。
+The backend Azure Functions application is implemented with a queue trigger, receives messages from the queue, executes tasks sequentially, and stores the execution results in Azure Storage BLOB.
 
-## 実行方法
+## How to Run
 
-本サンプルには、2つの実行方法がります。
+There are two ways to run this sample:
 
-1. 手動による実行
-2. Docker Compose による実行
+1. Manual execution
+2. Execution using Docker Compose
 
-前者は、お使いの環境に Storage エミュレータや Azure Functions Core ツールのインストールが必要で、1つ1つ個別にアプリケーションを起動していきます。後者は、Docker がインストールされている環境向けです。個々のアプリケーションはDocker上で実行されるので、個別に Storage エミュレータ等のインストールは不要で、 `docker-compose` コマンドで全てを起動できます。
+The former requires the installation of a Storage emulator and Azure Functions Core Tools in your environment, and you will need to start each application individually. The latter is for environments where Docker is installed. Since each application runs on Docker, there is no need to install individual Storage emulators, etc., and everything can be started with the `docker-compose` command.
 
-#### ストレージエミュレータの起動
+#### Starting the Storage Emulator
 
-前提条件のリンクを確認し、Azure Storage エミュレータもしくは、Azurite エミュレータを起動します。前者は、Visual Studio に付属しているので、インストールされている可能性がありますが、今後は Azurite エミュレータの利用をお勧めします。
+Check the prerequisites link and start the Azure Storage emulator or Azurite emulator. The former may be installed as part of Visual Studio, but it is recommended to use the Azurite emulator in the future.
 
-インストールされていない場合は、ドキュメントに従ってインストールし、Azurite エミュレータを起動してください。インストール方法、起動方法はいくつかの方法がありますので、お使いの環境にあった方法で行います。
+If it is not installed, follow the documentation to install and start the Azurite emulator. There are several ways to install and start it, so use the method that suits your environment.
 
-以下は、Azurite エミュレータの起動例です。
+Below is an example of starting the Azurite emulator.
+
 
 ```sh
 $ mkdir ~/azurite
@@ -51,9 +52,9 @@ Azurite Table service is starting at http://127.0.0.1:10002
 Azurite Table service is successfully listening at http://127.0.0.1:10002
 ```
 
-#### フロントエンド Web アプリケーションの起動
+#### Starting the Frontend Web Application
 
-Spring Boot Web アプリケーションです。以下のコマンドでビルド、実行します。
+This is a Spring Boot Web application. Build and run it using the following commands:
 
 ```sh
 cd frontent-webapp
@@ -61,7 +62,8 @@ mvn clean pacakage
 mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=10080
 ```
 
-ポート指定は、後の Docker Compose で起動した時と同じポートを使うように指定してあります。以下のようなログが表示され、アプリケーションが起動します。
+The port specification is set to use the same port as when starting with Docker Compose later. The following log will be displayed, and the application will start:
+
 
 ```log
 
@@ -90,9 +92,10 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=10080
 
 ```
 
-### バックエンド Functions アプリケーションの起動
+#### Starting the Backend Functions Application
 
-前提条件のリンクを確認し、Azure Functions Core ツールのインストールを行います。実行は `mvn` 経由で行います。
+Check the prerequisite links and install the Azure Functions Core Tools. Execution is done via mvn.
+
 
 ```sh
 cd backend-function
@@ -100,7 +103,6 @@ mvn clean package
 mvn azure-functions:run
 ```
 
-以下のようなログが表示され、Azure Functions アプリケーションが起動します。
 
 ```log
 [INFO] Scanning for projects...
@@ -128,22 +130,26 @@ For detailed output, run func with --verbose flag.
 [2021-10-22T08:06:34.973Z] Host lock lease acquired by instance ID '00000000000000000000000049ED9E21'.
 ```
 
-### Docker Compose を利用した実行方法
+### How to run using Docker Compose
 
-Docker Compose を利用して本サンプルを一括して実行することも出来ます。各アプリケーションはコンテナーで動作するので、エミュレータ等のインストールは不要です。はじめに、`build.sh` を実行して、各Javaアプリケーションをビルドし、次に Docker Image を作成します。
+You can also run this sample all at once using Docker Compose. Since each application runs in a container, there is no need to install emulators, etc. First, run `build.sh` to build each Java application, and then create the Docker Image.
 
 ```sh
 ./build.sh
 docker-compose build
 ```
 
-次にコンテナを起動します。
+Next, start the containers.
 
 ```sh
 docker-compose up
 ```
 
-以下のようなログが表示され、各コンテナが起動します。
+Next, start the containers.
+
+```sh
+docker-compose up
+```
 
 ```log
 Creating network "webapps-queue-functions-blob_default" with the default driver
@@ -186,27 +192,27 @@ backend_1   |       Host initialization: ConsecutiveErrors=0, StartupCount=1, Op
 backend_1   | info: Microsoft.Azure.WebJobs.Hosting.OptionsLoggingService[0]
 ```
 
-以下のコンテナが起動します
+The following containers will start:
 
-- Azurite ストレージエミュレーター
-- フロントエンド Webアプリケーション （Spring Boot Web アプリケーション）
-- バックエンド Azure Functions アプリケーション（キュートリガー）
+- Azurite Storage Emulator
+- Frontend Web Application (Spring Boot Web Application)
+- Backend Azure Functions Application (Queue Trigger)
 
+## Execution Confirmation
 
-## 実行確認
-
-以下のコマンドを実行します。このコマンドの内容は、以下の通り非同期応答パターンにそって実行されます。
+Run the following command. The content of this command will be executed according to the asynchronous response pattern.
 
 ```ssh
 ./test.sh
 ```
 
-1. APIエンドポイントに、メッセージをPOSTして、リクエストIDを取得する
-   数秒毎に状態エンドポイントにリクエストIDを渡して状態を確認する
-2. 状態エンドポイントから返却されるステータスコードは、`202 Accepted` もしくは、`302 Found` が返却される。
-3. `302 Found` のときは `Location` ヘッダに結果のBLOB URL が付加されるので、curlにてリダイレクトされ、BLOBの内容が表示される
+1. Post a message to the API endpoint and get the request ID.
+   Check the status by passing the request ID to the status endpoint every few seconds.
+2. The status code returned from the status endpoint will be either `202 Accepted` or `302 Found`.
+3. When `302 Found` is returned, the result BLOB URL is added to the `Location` header, so it will be redirected by curl, and the content of the BLOB will be displayed.
 
-実行結果は以下の通りです。
+The execution result is as follows.
+
 
 ```log
 REQUEST  http://localhost:10080/api/post
@@ -251,9 +257,9 @@ Keep-Alive: timeout=5
 Asynchronous Request Reply Pattern Sample
 ```
 
-## バックエンド側の設定について
+## Backend Configuration
 
-本サンプルの `host.json` 並列実行されないように バッチサイズを1に設定しています。
+In this sample, the `host.json` is configured with a batch size of 1 to prevent parallel execution.
 
 ```json
     "queues": {
@@ -262,8 +268,8 @@ Asynchronous Request Reply Pattern Sample
     }
 ```
 
-以下を参考に設定値を変更すると、コンシューマー側のメッセージの負荷を変化させることができます。
+Refer to the following to change the settings and adjust the message load on the consumer side.
 
-* [Azure Functions における Azure Queue storage のトリガーとバインドの概要 | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-bindings-storage-queue#hostjson-settings)
+* [Overview of Azure Queue storage triggers and bindings in Azure Functions | Microsoft Docs](https://docs.microsoft.com/azure/azure-functions/functions-bindings-storage-queue#hostjson-settings)
 
 以上

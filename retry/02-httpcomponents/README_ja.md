@@ -1,23 +1,24 @@
+# HttpComponents リトライサンプル
 
-This is a retry sample using Apache HttpComponents.
+Apache HttpComponets を利用したリトライサンプルです。
 
-## Overview
+## 概要
 
-This sample demonstrates how to retry HTTP requests using the features of Apache HttpComponents. It uses a web service that returns arbitrary status codes as the external service to be called.
+本サンプルは、 Apache HttpComponents の機能を用いて HTTP リクエストをリトライするサンプルです。 呼び出す外部サービスとして任意のステータスコードを返却する WEB サービスを利用しています。
 
-You can check two patterns:
+2つのパターンを確認できます。
 
-1. The external service returns `200`. It finishes without retrying.
-2. The external service returns `500`. Since `500` is a status code that should be retried, it attempts to retry.
+1. 外部サービスが `200` を返すパターン。リトライせずに終了します。
+2. 外部サービスが `500` を返すパターン。`500` はリトライするステータスコードのため、リトライを試行します。
 
-## Prerequisites
+## 前提
 
-- Java 17 or later
-- Maven 3.6 or later
+- Java 17 以降
+- Maven 3.6 以降
 
-## Dependencies
+## 依存ライブラリ
 
-It uses Apache HttpComponents 5.
+Apache HttpComponents 5 を利用していします。
 
 ```
         <dependency>
@@ -27,27 +28,27 @@ It uses Apache HttpComponents 5.
         </dependency>
 ```
 
-## Build and Execution
+## ビルドおよび実行方法
 
-Build with the following command:
+以下のコマンドでビルドします。
 
 ```sh
-mvn clean package
+mvn clean pakcage
 ```
 
-Run with the following command:
+以下のコマンドで実行します。
 
 ```sh
 mvn exec:java 
 ```
 
-You can also build and run from IDEs like Visual Studio Code or Eclipse.
+Visaul Studio Code や Eclipse などの IDE 上からもビルド、実行できます。
 
-## Execution Results
+## 実行結果
 
-### Pattern where the external service returns 200
+### 外部サービスが200を返すパターン
 
-Since a normal status is returned, it finishes without retrying.
+正常なステータスが返却されるのでリトライされず終了します。
 
 ```log
 2021-09-27 11:58:03:199 INFO App - httpcomponets sample start
@@ -55,9 +56,9 @@ Since a normal status is returned, it finishes without retrying.
 2021-09-27 11:58:04:908 INFO RetrySample - success
 ```
 
-### Pattern where the external service returns 500
+### 外部サービスが500を返すパターン
 
-Since a status (`500`) that should be retried is returned, it retries up to the maximum number of attempts and eventually fails.
+リトライすべきステータス（`500`）が返却されるので、最大試行回数までリトライされ、最終的に失敗します。
 
 ```log
 2021-09-27 11:58:04:946 INFO RetrySample - Executing request GET https://httpbin.org/status/500
@@ -69,22 +70,22 @@ Since a status (`500`) that should be retried is returned, it retries up to the 
 2021-09-27 11:58:51:671 INFO RetrySample - Number of retries exceeded or response code does not match retry status code :  6
 ```
 
-## Points
+## ポイント
 
-The behavior during retries is implemented in `MyRetryStrategy`.
+リトライ時の振る舞いは、`MyRetryStrategy` で実装されています。
 
-The number of retries and other settings are directly written in the program. Avoid such implementations in production code (e.g., read from environment variables or configuration files).
+リトライ回数等は、プログラムに直接記述してあります。プロダクションコードではこのような実装は避けて（例えば環境変数や構成ファイルから読み込む）ください。
 
 ```java
-        private static int MAX_RETRY_COUNT = 5; // Number of retries
-        private static int RETRY_INTERVAL = 3; // Retry interval
+        private static int MAX_RETRY_COUNT = 5; // リトライ回数
+        private static int RETRY_INTERVAL = 3; // リトライ間隔
 ```
 
-The conditions for retrying are implemented in the `retryRequest` method. Status codes in the `200` range are considered successful, while `500`, `503`, and `429` are considered for retrying. Other status codes are considered failures.
+`retryRequest` メソッド にリトライする条件を実装します。`200`番台は成功、`500`、`503`、`429` はリトライ対象、それ以外は失敗と判定します。
 
 ```java
         /**
-         * Determines the conditions for retrying.
+         * リトライすべき条件を判定します。
          */
         @Override
         public boolean retryRequest(HttpResponse response, int execCount, HttpContext context) {
@@ -111,11 +112,11 @@ The conditions for retrying are implemented in the `retryRequest` method. Status
         }
 ```
 
-The `retryRequest` method that receives exceptions determines the exceptions that should be retried.
+例外を受け取る `retryRequest` メソッドにはリトライすべき例外を判定します。
 
 ```java
         /**
-         * Determines the exceptions that should be retried.
+         * リトライすべき例外を判定します。
          */
         @Override
         public boolean retryRequest(HttpRequest request, IOException exception, int execCount, HttpContext context) {
@@ -126,21 +127,24 @@ The `retryRequest` method that receives exceptions determines the exceptions tha
             return false;
         }
 ```
-Calculates the retry interval. In the following example, it increases linearly with the number of executions.
+
+リトライ間隔を計算します。以下の例では、実行回数によってリニアに増加させています。
 
 ```java
         
         /**
-         * Calculates the retry interval.
+         * リトライ間隔を計算します。
          */
         @Override
         public TimeValue getRetryInterval(HttpResponse response, int execCount, HttpContext context) {
-            // Incremental interval
+            // 段階的間隔
             return TimeValue.ofSeconds(RETRY_INTERVAL * execCount);
         }
 ```
 
-## References
+## 参考リンク
 
 * [Apache HttpComponents – Apache HttpComponents](https://hc.apache.org/)
 
+
+以上

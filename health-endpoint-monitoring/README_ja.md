@@ -8,7 +8,7 @@ Microsoft Azure Well-Architected Framework に基づくクラウドデザイン�
 
 | サンプル名                                             | 概要                                                         |
 | ------------------------------------------------------ | ------------------------------------------------------------ |
-| [springboot-actuator](./springboot-actuator/README.md) | 単純なエンドポイントと、Spring Actuator をで実装したサンプル |
+| [springboot-actuator](./springboot-actuator/README.ja.md) | 単純なエンドポイントと、Spring Actuator をで実装したサンプル |
 
 ## 参考リンク
 

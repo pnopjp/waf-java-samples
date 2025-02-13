@@ -1,20 +1,20 @@
-# Spring Boot + Spring Cloud CircuitBreaker Resilience4j
+# Spring Boot + Spring Cloud CircutBreaker Resilience4j
 
-This is a sample of a circuit breaker combining Spring Boot and Spring Cloud Circuit Breaker with Resilience4j.
+Spring Boot と Spring Cloud Circuit Breaker の Rejilience4j を組み合わせたサーキットブレーカーサンプルです。
 
-## Overview
+## 概要
 
-We use the circuit breaker functionality provided by Spring Cloud Circuit Breaker. While several implementations can be chosen, this sample uses Resilience4j.
+Spring Cloud Circuit Breaker によって提供されたサーキットブレーカー機能を利用します。いくつか実装を選択することができますが、本サンプルでは Rejilience4j を利用します。
 
-## Prerequisites
+## 前提条件
 
-- Java 17 or later
-- Maven 3.6 or later
-- `curl` is used to call HTTP endpoints.
+- Java 17 以降
+- Maven 3.6 以降
+- HTTP エンドポイントを呼び出すために、`curl` を利用します。
 
-## Dependencies
+## 依存ライブラリ
 
-In addition to `spring-boot-starter-web`, the following libraries are required. For details, please refer to `pom.xml`.
+`spring-boot-starter-web` 以外に、以下のライブラリが必要です。詳細は、`pom.xml` を参照してください。
 
 ```xml
         <dependency>
@@ -28,20 +28,20 @@ In addition to `spring-boot-starter-web`, the following libraries are required. 
         <dependency>
 ```
 
-## Build and Run
+## ビルドおよび実行方法
 
-Build with the following command:
+以下のコマンドでビルドします。
 
-```sh
+```
 mvn clean package 
 ```
-Start the Spring Boot application with the following command:
+以下のコマンドでSpring Boot アプリケーションを起動します。 
 
-```sh
+```
 mvn spring-boot:run
 ```
 
-The application will start with logs similar to the following:
+以下のようなログが表示され、アプリケーションが起動します。
 
 ```log
   .   ____          _            __ _ _
@@ -60,18 +60,18 @@ The application will start with logs similar to the following:
 2021-10-11 14:03:16.647  INFO 22471 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
 ```
 
-**If you want to change the port**, run the following command with the additional argument:
-
+**ポートを変更したい場合は**、コマンドラインに以下の引数を付加して実行してください。
 
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8888
 ```
-## Sample Description
 
-The endpoints `/test1` and `/test2` are defined, and although the implementation methods are different, they behave the same. `/test1` is an example where the circuit breaker is configured programmatically, while `/test2` is configured using the `@CircuitBreaker` annotation.
+## サンプルの説明
 
-The service called from the `/test1` endpoint is an example where the circuit breaker is configured programmatically. It is defined in `SampleConfiguration`.
+`/test1` と `/test2` のエンドポイントが定義しており、実装方法は異なりました同じ振る舞いをします。`/test1` では、プログラムによってサーキットブレーカーを構成した例、`/test2` は `@CircutBreaker` アノテーションで構成されています。
 
+
+`/test1` のエンドポンイトから呼び出されるサービスは、プログラムでサーキットブレーカーを構成した例です。 `SampleConfiguration` で定義されています。
 
 ```java
     @Bean
@@ -93,7 +93,7 @@ The service called from the `/test1` endpoint is an example where the circuit br
     }
 ```
 
-The service called from the `/test2` endpoint is configured using the `@CircuitBreaker` annotation. The configuration values are defined in `application.yml`.
+`/test2` のエンドポイントから呼び出されるサービスは、`@CircuitBreaker` アノテーションで構成されています。構成値は、`application.yml` で定義されています。
 
 ```yml
 resilience4j.circuitbreaker:
@@ -110,17 +110,18 @@ resilience4j.circuitbreaker:
             - org.springframework.web.client.HttpClientErrorException.TooManyRequests
 
 ```
-`/test1` and `/test2` are configured to behave almost the same.
 
-## Operating the Application
+`/test1` も `/test2` もほぼ同じ振る舞いになるように、構成設定してあします。
 
-Run `test.sh`.
+## アプリケーションへの操作
 
-When the circuit breaker becomes OPEN, an exception `io.github.resilience4j.circuitbreaker.CallNotPermittedException CircuitBreaker 'myconfig1' is OPEN and does not permit further calls` is thrown, and external service calls are blocked.
+`test.sh` を実行します。 
 
-### CLOSED -> OPEN
+サーキットブレーカー が OPENになると、`io.github.resilience4j.circuitbreaker.CallNotPermittedException CircuitBreaker 'myconfig1' is OPEN and does not permit further calls` の例外がスローされ、外部サービス呼び出しはブロックされます。
 
-This is an example of transitioning from the initial state (CLOSED) to OPEN. If the failure rate of the 10 sliding windows exceeds 30% (3 times in this example), it transitions to OPEN, but it will not be evaluated unless there are at least the number of calls in the sliding window. The external service call is set to fail once every three times, and after the 10th call, the failure rate is evaluated, and it transitions to OPEN. After transitioning to OPEN, external service calls are blocked.
+### CLOSED -> OPEN 
+
+初期状態（CLOSED） ->　OPEN へ移行する例です。10回のスライディングウィンドウの失敗率が30%を超える（本例だと3回）と OPEN へ遷移しますが、最低でもスライディングウィンドウ数の呼び出しがないと評価されません。外部サービス呼び出しを3回に1回失敗するようにしてあり、10回目の呼び出し後に失敗率が評価され、OPEN に遷移しています。OPEN に遷移後は、外部サービス呼び出しはブロックされます。
 
 
 ```log
@@ -219,10 +220,11 @@ This is an example of transitioning from the initial state (CLOSED) to OPEN. If 
 2021-10-11 14:44:21.535  INFO 27061 --- [pool-1-thread-1] o.p.wa.sample.cb.sb.r4j.SampleService    : success
 ```
 
-In this sample, since the internal state cannot be checked, it is judged from the behavior.
+本サンプルでは、内部の状態を確認できないので、挙動から判断しています。
 
-## References
+## 参考リンク
 
 * [CircuitBreaker](https://resilience4j.readme.io/docs/circuitbreaker)
-* [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker)
+* [Spring Cloud Circuit Breaker とは？ - リファレンスドキュメント](https://spring.pleiades.io/projects/spring-cloud-circuitbreaker)
 
+以上

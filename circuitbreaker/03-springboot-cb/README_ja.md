@@ -1,22 +1,22 @@
-# Spring Boot + Spring Cloud CircuitBreaker Resilience4j
+# Spring Boot + Spring Cloud CircutBreaker Resilience4j
 
-This is a circuit breaker sample combining Spring Boot and Spring Cloud Circuit Breaker's Spring Retry.
+Spring Boot と Spring Cloud Circuit Breaker の Spring Retry を組み合わせたサーキットブレーカーサンプルです。
 
-## Overview
+## 概要
 
-It utilizes the circuit breaker functionality provided by Spring Cloud Circuit Breaker. Several implementations can be selected, but this sample uses Resilience4j.
+Spring Cloud Circuit Breaker によって提供されたサーキットブレーカー機能を利用します。いくつか実装を選択することができますが、本サンプルでは Rejilience4j を利用します。
 
-## Prerequisites
+## 前提
 
-## Requirements
+## 前提条件
 
-- Java 17 or later
-- Maven 3.6 or later
-- `curl` is used to call HTTP endpoints.
+- Java 17 以降
+- Maven 3.6 以降
+- HTTP エンドポイントを呼び出すために、`curl` を利用します。
 
-## Dependencies
+## 依存ライブラリ
 
-Besides `spring-boot-starter-web`, the following libraries are required. For details, please refer to `pom.xml`.
+`spring-boot-starter-web` 以外に、以下のライブラリが必要です。詳細は、`pom.xml` を参照してください。
 
 ```xml
         <dependency>
@@ -29,21 +29,21 @@ Besides `spring-boot-starter-web`, the following libraries are required. For det
             <version>2.0.2</version>
         <dependency>
 ```
-## Build and Run
 
-Build with the following command:
+## ビルドおよび実行方法
+
+以下のコマンドでビルドします。
 
 ```
 mvn clean package 
 ```
-Start the Spring Boot application with the following command:
+以下のコマンドでSpring Boot アプリケーションを起動します。 
 
 ```
 mvn spring-boot:run
 ```
 
-The application will start and the following log will be displayed.
-
+以下のログが表示され、アプリケーションが起動します。
 
 ```log
   .   ____          _            __ _ _
@@ -61,15 +61,16 @@ The application will start and the following log will be displayed.
 2021-10-11 14:03:16.647  INFO 22471 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
 2021-10-11 14:03:16.647  INFO 22471 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
 ```
-**If you want to change the port**, run the following command with the argument:
+
+**ポートを変更したい場合は**、コマンドラインに以下の引数を付加して実行してください。
 
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8888
 ```
 
-## Sample Explanation
+## サンプル説明
 
-The endpoints `/test1` and `/test2` are defined, and although the implementation methods are different, they behave the same. `/test1` is an example where the circuit breaker is configured programmatically, while `/test2` is configured with the `@CircuitBreaker` annotation.
+`/test1` と `/test2` のエンドポイントが定義しており、実装方法は異なりました同じ振る舞いをします。`/test1` では、プログラムによってサーキットブレーカーを構成した例、`/test2` は `@CircutBreaker` アノテーションで構成されています。
 
 ```java
     @Bean
@@ -88,12 +89,12 @@ The endpoints `/test1` and `/test2` are defined, and although the implementation
             .configure(builder -> builder.retryPolicy(policy).build(), "myconfig1");
     }
 ```
-## Application Operation
 
-Run `test1.sh`. To make the application's behavior easier to understand, the debug level of `org.springframework.retry` is set to `TRACE`.
+## アプリケーションへの操作
 
-This is an example of transitioning from the initial state (CLOSED) to OPEN. If there are more than 3 failures within 5 seconds as configured, it will transition to OPEN. In the log of the third call, you can confirm that `Opening circuit` is output. Subsequent calls will be blocked by the circuit breaker.
+`test1.sh` を実行します。アプリケーションの動作を分りやすくするために、`org.springframework.retry` のデバッグレベルを `TRACE`にしてあります。
 
+初期状態（CLOSED）-> OPEN へ遷移する例です。設定通り5秒以内に3回以上失敗すると、 OPEN への遷移します。3回目の呼び出しログで、最終的に `Opening circuit` と出力されるのが確認できます。それ移行の呼び出しは、サーキットブレーカーによってブロックされます。
 
 ```log
 2021-10-11 21:14:38.433  INFO 1462 --- [nio-8080-exec-1] o.p.sample.waf.cb.sb.SampleController    : test1
@@ -129,7 +130,7 @@ This is an example of transitioning from the initial state (CLOSED) to OPEN. If 
 2021-10-11 21:14:39.595 ERROR 1462 --- [nio-8080-exec-5] org.pnop.sample.waf.cb.sb.SampleService  : org.springframework.web.client.HttpServerErrorException$InternalServerError 500 INTERNAL SERVER ERROR: [no body]
 ```
 
-After a certain period (10 seconds in the configuration), the settings will be reset and transition to CLOSED, but if the threshold is exceeded, it will transition to OPEN again.
+一定期間経過すると（設定では10秒）、設定はリセットされ CLOSED に遷移しますが、閾値を超えると再び OPEN へと遷移します。
 
 ```log
 2021-10-11 21:14:51.606  INFO 1462 --- [nio-8080-exec-6] o.p.sample.waf.cb.sb.SampleController    : test1
@@ -175,9 +176,10 @@ After a certain period (10 seconds in the configuration), the settings will be r
 2021-10-11 21:14:53.457 TRACE 1462 --- [nio-8080-exec-6] o.s.retry.support.RetryTemplate          : RetryContext retrieved: [RetryContext: count=3, lastException=org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 INTERNAL SERVER ERROR: [no body], exhausted=false]
 2021-10-11 21:14:53.457 ERROR 1462 --- [nio-8080-exec-6] org.pnop.sample.waf.cb.sb.SampleService  : org.springframework.web.client.HttpServerErrorException$InternalServerError 500 INTERNAL SERVER ERROR: [no body]
 ```
-Some redundant parts of the log output have been omitted.
 
-`test2` behaves similarly, but the logs are slightly different.
+ログ出力の冗長な部分を一部割愛しています。
+
+`test2` も同様の振る舞いをしますが、ログが多少異なります。
 
 ```log
 2021-10-11 21:20:43.246  INFO 1462 --- [nio-8080-exec-7] o.p.sample.waf.cb.sb.SampleController    : test2
@@ -279,6 +281,8 @@ Some redundant parts of the log output have been omitted.
 2021-10-11 21:20:57.640 DEBUG 1462 --- [nio-8080-exec-9] s.r.i.StatefulRetryOperationsInterceptor : Exiting proxied method in stateful retry with result: (fallback)
 ```
 
-## Reference
+## 参考リンク
 
-* [Spring Cloud Circuit Breaker の概要とサポート期間 - リファレンスドキュメント](https://spring.pleiades.io/projects/spring-cloud-circuitbreaker)
+* [Spring Cloud Circuit Breaker とは？ - リファレンスドキュメント](https://spring.pleiades.io/projects/spring-cloud-circuitbreaker)
+
+以上

@@ -10,7 +10,6 @@ import org.apache.hc.client5.http.HttpRequestRetryStrategy;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpResponse;
@@ -43,10 +42,12 @@ public class RetrySample {
             logger.info("Executing request " + httpget.getMethod() + " " + httpget.getUri());
 
             // リクエスト
-            try (final CloseableHttpResponse response = httpclient.execute(httpget)) {
+            httpclient.execute(httpget, response -> {
                 String content = IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
                 System.out.println(content);
-            }
+                logger.info("response code : {}", response.getCode());
+                return null;
+            });
         }
         return true;
 
@@ -56,7 +57,7 @@ public class RetrySample {
 
         private static int MAX_RETRY_COUNT = 5; // リトライ回数
         private static int RETRY_INTERVAL = 3; // リトライ間隔
-        
+
         /**
          * リトライすべき条件を判定します。
          */
@@ -84,7 +85,6 @@ public class RetrySample {
             return false;
         }
 
-        
         /**
          * リトライすべき例外を判定します。
          */
@@ -97,7 +97,6 @@ public class RetrySample {
             return false;
         }
 
-        
         /**
          * リトライ間隔を計算します。
          */
