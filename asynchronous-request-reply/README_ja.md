@@ -8,7 +8,7 @@ Microsoft Azure Well-Architected Framework に基づくクラウドデザイン�
 
 | サンプル名                                                               | 概要                                                                                                     |
 | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| [webapps-queue-functions-blob](./webapps-queue-functions-blob/README.md) | WebApps と Azure Storage キューとBLOB および Azure Functionsキュートリガーを組み合わせて実装したサンプル |
+| [webapps-queue-functions-blob](./webapps-queue-functions-blob/README_ja.md) | WebApps と Azure Storage キューとBLOB および Azure Functionsキュートリガーを組み合わせて実装したサンプル |
 
 ## 参考リンク
 

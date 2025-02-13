@@ -2,6 +2,14 @@
 
 [日本語|Japanese](./README_ja.md)
 
+### :new: Update 2025/02
+
+- Add all english documentation
+- Updated dependent libraries (azure sdk ...)
+- Updated azure libraries and azure functions libraries
+- Update Spring Boot Version 3.2.3 to 3.4.2
+- Updated related links.
+
 ### Update 2024/03
 
 - Updated dependent libraries (azure sdk ...)
