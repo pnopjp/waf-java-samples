@@ -1,5 +1,11 @@
 # Microsoft Azure Well-Architected Framework Samples for Java
 
+### :new: 更新 2025/2
+
+- 更新 依存ライブラリ
+- 更新 Spring Boot Version 3.2.3 から 3.4.2
+- 英語ドキュメントの追加
+
 ### 更新 2024/03
 
 - 更新 依存ライブラリ
@@ -18,11 +24,11 @@ Microsoft Azure Well-Architected Framework に基づくクラウドデザイン�
 
 | フォルダ                                                             | サンプル内容                       |
 | -------------------------------------------------------------------- | ---------------------------------- |
-| [retry](./retry/README.md)                                           | リトライ（再試行）パターン         |
-| [circuitbreaker](./circuitbreaker/README.md)                         | サーキットブレーカー パターン      |
-| [health-endpoint-monitoring](./health-endpoint-monitoring/README.md) | 正常性エンドポイントの監視パターン |
-| [queue-base-load-leveling](./queue-base-load-leveling/README.md)     | キュー ベースの負荷平準化パターン  |
-| [asynchronous-request-reply](./asynchronous-request-reply/README.md) | 非同期応答パターン                 |
+| [retry](./retry/README_ja.md)                                           | リトライ（再試行）パターン         |
+| [circuitbreaker](./circuitbreaker/README_ja.md)                         | サーキットブレーカー パターン      |
+| [health-endpoint-monitoring](./health-endpoint-monitoring/README_ja.md) | 正常性エンドポイントの監視パターン |
+| [queue-base-load-leveling](./queue-base-load-leveling/README_ja.md)     | キュー ベースの負荷平準化パターン  |
+| [asynchronous-request-reply](./asynchronous-request-reply/README_ja.md) | 非同期応答パターン                 |
 
 ## 前提条件
 

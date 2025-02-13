@@ -1,12 +1,16 @@
-# Health Endpoint Sample
+# 正常性エンドポイントのサンプル
 
-This is a sample of a health endpoint based on Spring Boot. This sample includes a simple response example and an example using Spring Boot Actuator.
+Spring Boot をベースとした正常性エンドポイントのサンプルです。本サンプルでは、単純にレスポンスを返すサンプルと Spring Boot Actuator を利用したサンプルが実装されています。
 
-## Prerequisites
+## 前提条件
 
-- Java 17 or later
-- Maven 3.8 or later
-- `curl` is used to call HTTP endpoints.
+- Java 17 以降
+- Maven 3.8 以降
+- HTTP エンドポイントを呼び出すために、`curl` を利用します。
+
+## 依存ライブラリ
+
+`spring-boot-starter-web` 以外に、以下のライブラリが必要です。詳細は、`pom.xml` を参照してください。
 
 ```xml
         <dependency>
@@ -17,19 +21,18 @@ This is a sample of a health endpoint based on Spring Boot. This sample includes
 
 ## ビルドおよび実行方法
 
-Build with the following command:。
+以下のコマンドでビルドします。
 
-```sh
+```
 mvn clean package 
 ```
+以下のコマンドでSpring Boot アプリケーションを起動します。 
 
-Start the Spring Boot application with the following command:
-
-```sh
+```
 mvn spring-boot:run
 ```
 
-The application will start and display logs as shown below.
+以下のようなログが表示され、アプリケーションが起動します。
 
 ```log
   .   ____          _            __ _ _
@@ -54,22 +57,23 @@ The application will start and display logs as shown below.
 2021-10-18 23:01:30.111  INFO 22452 --- [  restartedMain] o.p.waf.sample.act.sb.SampleApplication  : Started SampleApplication in 11.969 seconds (JVM running for 12.935)
 ```
 
-**If you want to change the port**, run the following command with the additional argument:
+**ポートを変更したい場合は**、コマンドラインに以下の引数を付加して実行してください。
 
-sh
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8888
 ```
-## Simple Health Endpoint Sample
 
-Call the custom implemented health endpoint. The implementation is in the `HealthController` class.
+## 単純な正常性エンドポイントのサンプル
 
-Call `/health/ping`.
+独自に実装した正常性エンドポイントを呼び出します。実装は `HealthController` クラスです。
+
+`/health/ping` を呼び出します。
 
 ```sh
 curl http://localhost:8080/health/ping
 ```
-A simple response will be returned. Monitoring tools will determine if the response is successful (HTTP status code 200) and if the content of the response is correct.
+
+単純なレスポンスが返却されます。監視ツールでは正常に応答したかどうか（HTTPのステータスコードが200か）や、レスポンスの内容が正しいかどうかを判断します。
 
 ```json
 {
@@ -78,13 +82,13 @@ A simple response will be returned. Monitoring tools will determine if the respo
 }
 ```
 
-Call `/health/4c735208-8bd6-4271-9020-1acbcc79b052`. The URL is designed to be difficult to guess.
+`/health/4c735208-8bd6-4271-9020-1acbcc79b052` を呼び出します。URLは容易に推測されないようになっています。
 
-```sh
+```
  curl -i http://localhost:8080/health/4c735208-8bd6-4271-9020-1acbcc79b052
 ```
 
-Additionally, an error will occur if a specific value is not set in the request header to protect the endpoint.
+またエンドポイント保護のために、リクエストヘッダに特定の値を設定しないとエラーになります。
 
 ```log
 HTTP/1.1 404
@@ -98,13 +102,13 @@ Content-Length: 0
 Date: Mon, 18 Oct 2021 14:12:46 GMT
 ```
 
-Adding the request header with the `-H "X-HEALTH-KEY:PASS"` option will return a normal response. In practice, use a complex and long value instead of a simple string like `PASS`.
+`-H "X-HEALTH-KEY:PASS"` オプションでリクエストヘッダを追加すると、正常なレスポンスを返却します。実際には、`PASS` のような単純な文字列でなく複雑で長い値を利用します。
 
-```sh
+```
 curl -i -H "X-HEALTH-KEY:PASS" http://localhost:8080/health/4c735208-8bd6-4271-9020-1acbcc79b052
 ```
 
-A normal response will be returned.
+正常にレスポンスが返却されます。
 
 ```
 HTTP/1.1 200
@@ -120,19 +124,18 @@ Date: Mon, 18 Oct 2021 14:18:57 GMT
 
 {"date":"2021-10-18T23:18:57.840219+09:00","message":"sucess"}%
 ```
-## Sample Using Spring Actuator
 
-`MyApplication` and `MyApplication2` are custom extended indicators. They correspond to the `MyHealthIndicator` and `MyHealthIndicator2` classes, respectively.
+## Spring Actuator を利用したサンプル
 
-Call `/actuator/health`.
+`MyApplication`と `MyApplication2` が独自に拡張したインジケーターです。それぞれ、`MyHealthIndicator` と `MyHealthIndicator2` クラスがそれに対応します。
 
+`/actuator/health` を呼び出します。
 
 ```sh
 curl http://localhost:8080/actuator/health 
 ```
 
-The response is as follows.
-
+レスポンスは以下の通りです。
 
 ```json
 {
@@ -170,7 +173,7 @@ The response is as follows.
 }
 ```
 
-In this sample, errors are generated randomly. Please check the response content by calling several times. If an error is returned, the overall status will be `DOWN`.
+本サンプルではエラーをランダムに発生させています。何度か呼び出しレスポンスの内容を確認してください。エラーが返却されると、全体が`DOWN`状態となります。
 
 ```json
 {
@@ -208,13 +211,13 @@ In this sample, errors are generated randomly. Please check the response content
 }
 ```
 
-You can also access it in the form of `/actuator/health/MyApplication`.
+`/actuator/health/MyApplication` のような形でのアクセスもできます。
 
 ```
 curl http://localhost:8080/actuator/health/MyApplication
 ```
 
-The response of the specified indicator will be returned.
+指定されたインジケーターのレスポンスが返却されます。
 
 ```json
 {
@@ -227,6 +230,6 @@ The response of the specified indicator will be returned.
 }
 ```
 
-> :exclamation: The response is formatted for readability.
+> :exclamation: レスポンスは見やすさのためフォーマットしてあります
 
 以上

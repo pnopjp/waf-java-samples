@@ -1,45 +1,46 @@
-# Retry Sample Implemented Independently
+# 独自に実装した場合のリトライサンプル
 
-This is a sample implemented to understand retry logic. In practice, consider using libraries or frameworks.
+リトライロジックを理解するため実装したサンプルです。実際はライブラリやフレームワークの利用を検討してください。
 
-## Overview
+## 概要
 
-This sample is an example of implementing retry without using libraries or frameworks to make it easier to understand the internal logic of retry. It uses a web service that returns arbitrary status codes as the external source to be called.
+本サンプルはリトライの内部ロジックを理解しやすいように、ライブラやフレームワークを使わずにリトライを実装した例です。呼び出す外部サースとして任意のステータスコードを返却する WEB サービスを利用しています。
 
-You can check four patterns:
+4つのパターンをを確認できます。
 
-1. The external service returns `200`. It ends without retrying.
-2. The external service returns `500`. Since `500` is a status code that should be retried, it attempts to retry.
-3. The external service returns `429`. Same as above.
-4. The external service does not return a response within the specified time, resulting in an `HttpTimeoutException`. Since it is an exception that should be retried, it attempts to retry.
+1. 外部サービスが `200` を返すパターン。リトライせずに終了します。
+2. 外部サービスが `500` を返すパターン。`500` はリトライするステータスコードのため、リトライを試行します。
+3. 外部サービスが `429` を返すパターン。上記と同様です。
+4. 外部サービスが既定時間ないにレスポンスを返さないため、`HttpTimeoutException`がスローされる例。リトライ対象の例外であるため、リトライを試行します。
 
-## Prerequisites
+## 前提環境
 
-- Java 17 or later
-- Maven 3.6 or later
+- Java 17 以降
+- Maven 3.6 以降
 
-## Build and Execution
+## ビルドおよび実行方法
 
-Build with the following command:
-
-```sh
-mvn clean package
-```
-
-Execute with the following command:
+以下のコマンドでビルドします。
 
 ```sh
-mvn exec:java
+mvn clean pakcage
 ```
 
-You can also build and execute from IDEs like Visual Studio Code or Eclipse.
-## Execution Results
+以下のコマンドで実行します。
 
-The execution results of this sample are summarized by pattern.
+```sh
+mvn exec:java 
+```
 
-### Pattern where the external service returns 200
+Visaul Studio Code や Eclipse などの IDE 上からもビルド、実行できます。
 
-Since a normal status is returned, it ends without retrying.
+## 実行結果
+
+本サンプルの実行結果をパターン別にまとめます。
+
+### 外部サービスが200を返すパターン
+
+正常なステータスが返却されるのでリトライされず終了します。
 
 ```log
 2021-09-22 11:25:54:815 INFO App - main start
@@ -48,10 +49,9 @@ Since a normal status is returned, it ends without retrying.
 2021-09-22 11:25:56:814 INFO RetrySample - response : 200
 ```
 
-### Pattern where the external service returns 500
+### 外部サービスが500を返すパターン
 
-Since a status (`500`) that should be retried is returned, it retries up to the maximum number of attempts and ultimately fails.
-
+リトライすべきステータス（`500`）が返却されるので、最大試行回数までリトライされ、最終的に失敗します。
 
 ```log
 2021-09-22 11:25:56:814 INFO App - *** internal server errror ***
@@ -69,9 +69,9 @@ Since a status (`500`) that should be retried is returned, it retries up to the 
 2021-09-22 11:26:06:943 ERROR RetrySample - Number of retries exceeded
 ```
 
-### Pattern where the external service returns 429. Same as 500
+### 外部サービスが429を返すパターン。500と同様
 
-It is the same as `500`.
+`500` と同様です。
 
 ```log
 2021-09-22 11:26:06:943 INFO App - *** too many request ***
@@ -89,9 +89,9 @@ It is the same as `500`.
 2021-09-22 11:26:17:076 ERROR RetrySample - Number of retries exceeded
 ```
 
-### Pattern where `HttpTimeoutException` is thrown
+### `HttpTimeoutException` がスローされるパターン
 
-Although `HttpTimeoutException` is thrown, it is subject to retry, so it retries and ultimately fails.
+`HttpTimeoutException` がスローされますが、リトライ対象なのでリトライされ、最終的に失敗します。
 
 ```log
 2021-09-22 11:26:17:077 INFO App - *** timeout ***
@@ -109,39 +109,40 @@ Although `HttpTimeoutException` is thrown, it is subject to retry, so it retries
 2021-09-22 11:26:46:146 ERROR RetrySample - Number of retries exceeded
 2021-09-22 11:26:46:147 INFO App - main end
 ```
-## Points
 
-The number of retries is declared as a constant. Changing it will alter the number of retries.
+## ポイント
+
+リトライ回数は定数として宣言されています。変更するとリトライ回数が変化します。
 
 ```java
     private static final int MAX_RETRY_COUNT = 3;
 ```
 
-Determination of retries based on status codes. Status codes in the `200` range are considered successful, while `500`, `503`, and `429` are subject to retries. Other status codes are considered failures.
+ステータスコードによるリトライの判定。 `200`番台は成功、`500`、`503`、`429` はリトライ対象、それ以外は失敗と判定します。
 
 ```java
                 if (code >= 200 && code <= 299) {
                     return true;
                 }
-                // check if the status code is 500, 503, or 429
+                // リトライすべきステータスコードかチェック
                 if ((code == 500 || code == 503 || code == 429) == false) {
                     return false;
                 }
 ```
-Determination of exceptions to retry. `HttpTimeoutException` is subject to retry. Other exceptions are considered failures.
+
+リトライする例外の判定。`HttpTimeoutException` をリトライ対象にしています。それ以外は失敗と判定します。
 
 ```java
             } catch (HttpTimeoutException e) {
-                // Timeout exceptions are subject to retry
+                // タイムアウトの例外はリトライ対象
                 logger.warn("HttpTimeoutException");
             } catch (IOException | InterruptedException e) {
-                // Other exceptions are considered failures
+                // それ以外の例外は失敗
                 logger.error("Exception", e);
                 return false;
             }
 ```
-
-The retry interval is fixed. Changing it to `retryCount * RETRY_INTERVAL` will gradually extend the interval.
+リトライ間隔は一定です。`retryCount * RETRY_INTERVAL` に変更すると、段階的に間隔が延びていきます。
 
 ```java
     private static final int RETRY_INTERVAL  = 3;
@@ -155,3 +156,7 @@ The retry interval is fixed. Changing it to `retryCount * RETRY_INTERVAL` will g
                 return false;
             }
 ```
+
+以上
+
+

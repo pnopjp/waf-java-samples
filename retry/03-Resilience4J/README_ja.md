@@ -1,25 +1,27 @@
-# Retry Sample with Resilience4j
+# Resilience4j のリトライサンプル
 
-This is a retry sample using Resilience4j.
+Resilience4j を利用したリトライサンプルです。
 
-## Overview
+## 概要
 
-This sample uses the retry component of the Resilience4j library. It uses a web service that returns arbitrary status codes as the external source being called.
+本サンプルは、Resilience4j ライブラリのリトライコンポーネントを利用したサンプルです。呼び出す外部サースとして任意のステータスコードを返却する WEB サービスを利用しています。
 
-1. The external service returns `200`. It finishes without retrying.
-2. The external service returns `404`. It finishes without retrying.
-3. The external service returns `500`. Since `500` is a status code that triggers a retry, it attempts to retry.
-4. The external service returns `429`. It behaves the same as above.
-5. The external service does not return a response within the specified time, resulting in an `HttpTimeoutException`. Since this is an exception that triggers a retry, it attempts to retry.
 
-## Prerequisites
+1. 外部サービスが `200` を返すパターン。リトライせずに終了します。
+2. 外部サービスが `404` を返すパターン。リトライせずに終了します。
+3. 外部サービスが `500` を返すパターン。`500` はリトライするステータスコードのため、リトライを試行します。
+4. 外部サービスが `429` を返すパターン。上記と同様です。
+5. 外部サービスが既定時間ないにレスポンスを返さないため、`HttpTimeoutException`がスローされる例。リトライ対象の例外であるため、リトライを試行します。
 
-- Java 17 or later
-- Maven 3.6 or later
 
-## Dependencies
+## 前提
 
-This sample uses the retry library of Resilience4j.
+- Java 17 以降
+- Maven 3.6 以降
+
+## 依存ライブラリ
+
+Resilience4j の リトライライブラリを利用しています。
 
 ```xml
         <dependency>
@@ -29,24 +31,47 @@ This sample uses the retry library of Resilience4j.
         </dependency>
 ```
 
-You can also build and run from IDEs such as Visual Studio Code or Eclipse.
+## ビルドおよび実行方法
 
-## Execution Results
+以下のコマンドでビルドします。
 
-The execution results of this sample are summarized by pattern.
+```sh
+mvn clean pakcage
+```
 
-### Pattern where the external service returns 200
+以下のコマンドで実行します。
 
-Since a normal status is returned, it finishes without retrying.
+```sh
+mvn exec:java 
+```
+
+Visaul Studio Code や Eclipse などの IDE 上からもビルド、実行できます。
+
+## 実行結果
+
+本サンプルの実行結果をパターン別にまとめます。
+
+### 外部サービスが200を返すパターン
+
+正常なステータスが返却されるのでリトライされず終了します。
+
 
 ```log
 2021-09-27 13:54:47:506 INFO App - Resilience4j retry sample start
 2021-09-27 13:54:47:904 INFO RetrySample - Executing request : https://httpbin.org/status/200
 ```
 
-### Pattern where the external service returns 500
+### 外部サービスが404を返すパターン
 
-Since a status (`500`) that should be retried is returned, it retries up to the maximum number of attempts and eventually fails.
+正常でない `404 Not Found` のステータスが返却されますが、リトライ対象でないので、リトライされずに終了します。
+
+```log
+2021-09-27 13:54:49:083 INFO RetrySample - Executing request : https://httpbin.org/status/404
+```
+
+### 外部サービスが500を返すパターン
+
+リトライすべきステータス（`500`）が返却されるので、最大試行回数までリトライされ、最終的に失敗します。
 
 ```log
 2021-09-27 13:54:49:694 INFO RetrySample - Executing request : https://httpbin.org/status/500
@@ -58,9 +83,11 @@ Since a status (`500`) that should be retried is returned, it retries up to the 
 2021-09-27 13:55:11:682 INFO RetrySample - Executing request : https://httpbin.org/status/500
 2021-09-27 13:55:11:900 INFO RetrySample - onError : 2021-09-27T13:55:11.900590+09:00[Asia/Tokyo]: Retry 'retry' recorded a failed retry attempt. Number of retry attempts: '4'. Giving up. Last exception was: 'io.github.resilience4j.retry.MaxRetriesExceeded: max retries is reached out for the result predicate check'.
 ```
-### Pattern where `HttpTimeoutException` is thrown
 
-Although `HttpTimeoutException` is thrown, it is a retry target, so it retries and eventually fails.
+### `HttpTimeoutException` がスローされるパターン
+
+
+`HttpTimeoutException` がスローされますが、リトライ対象なのでリトライされ、最終的に失敗します。
 
 ```log
 2021-09-27 13:55:11:907 INFO RetrySample - Executing request : https://httpbin.org/delay/10
@@ -74,9 +101,9 @@ Although `HttpTimeoutException` is thrown, it is a retry target, so it retries a
 2021-09-27 13:55:52:966 INFO App - end
 ```
 
-## Key Points
+## ポイント
 
-The retry configuration is done using the `RetryConfig` class. The configuration is set using the builder pattern. For details, please refer to the reference from the links provided. In this sample, the number of retries and other settings are directly written in the program. Avoid such implementations in production code (e.g., read from environment variables or configuration files).
+リトライの構成は `RetryConfig` クラスで行います。ビルダーパターンでリトライの構成を設定していきます。詳細は参考リンクからのリファレンスを参照してください。本サンプルもリトライ回数等は、プログラムに直接記述してあります。プロダクションコードではこのような実装は避けて（例えば環境変数や構成ファイルから読み込む）ください。
 
 ```java
         RetryConfig config = RetryConfig.custom()
@@ -89,7 +116,8 @@ The retry configuration is done using the `RetryConfig` class. The configuration
                     .ofExponentialBackoff(Duration.ofSeconds(RETRY_INTERVAL), 2d))
             .build();
 ```
-You can receive events from the event publisher for retries, exceptions, and successes.
+
+イベントパブリッシャーから、リトライ時、例外時、成功時のイベントを受け取ることが出来ます。
 
 ```java
         retry.getEventPublisher()
@@ -98,7 +126,7 @@ You can receive events from the event publisher for retries, exceptions, and suc
             .onSuccess(event -> logger.info("onSuccess : {}", event.toString()));
 ```
 
-The logic you want to retry should be written as a callback using interfaces such as `Callable`, `Supplier`, or `Runnable`.
+リトライしたいロジックは、`Callable` や、 `Supplier`、`Runnable` などのインターフェースでコールバックを記述します。
 
 
 ```java
@@ -111,7 +139,9 @@ The logic you want to retry should be written as a callback using interfaces suc
             }
 ```
 
-## References
+## 参考リンク
 
 * [resilience4j/resilience4j: Resilience4j is a fault tolerance library designed for Java8 and functional programming](https://github.com/resilience4j/resilience4j)
 * [Resilience4j Retry](https://resilience4j.readme.io/docs/retry)
+
+以上

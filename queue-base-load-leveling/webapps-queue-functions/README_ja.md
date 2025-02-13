@@ -1,49 +1,49 @@
-# Queue-based Load Leveling Sample
+# キューベースの負荷平準化サンプル
 
-This is a sample of queue-based load leveling implemented using Spring Boot, Azure Storage Queue, and Azure Functions.
+Spring Boot と Azure Storage キュー、および Azure Functions を利用して実装したキューベースの負荷平準化サンプルです。
 
-## Prerequisites
+## 前提条件
 
-- Java 17 or later
-- Maven 3.8 or later
-- [Azure Storage Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) or [Azurite Emulator](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm)
-- [Azure Functions Core Tools](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)
-- Or a Docker runtime environment (installation of Azure Storage Emulator and Azure Functions Core Tools is not required)
+- Java 17 以降
+- Maven 3.8 以降
+- [Azure Storge エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-emulator) または [Azurite エミュレータ](https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azurite?tabs=npm) 
+- [Azure Functions Core ツール](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-run-local)
+- もしくはDocker実行環境（Azure Storage エミュレータとAzure Functions Core ツールのインストールが不要になります）
 
-## Sample Configuration
+## サンプルの構成
 
-This sample consists of three components:
+本サンプルは3つのコンポーネントで構成されています。
 
-1. Producer Web Application
-2. Azure Storage Queue
-3. Consumer Azure Functions Application
+1. プロデューサー Web アプリケーション
+2. Azure Storage キュー
+3. コンシューマー Azure Functions アプリケーション
 
-The Producer Web Application is implemented with Spring Boot and generates tasks based on external requests, sending messages to the queue.
+プロデューサー Web アプリケーションは Spring Boot で実装されており、外部からのリクエストを元にタスクを生成し、キューにメッセージを送信します。
 
-The Azure Storage Queue uses the Azurite emulator to level the tasks.
+Azure Storage キューは、Azurite エミュレータを利用しており、タスクを平準化します。
 
-The Consumer Azure Functions Application is implemented with a queue trigger, receiving messages from the queue and executing tasks sequentially. In this sample, instead of executing tasks, it sleeps for an arbitrary number of seconds and then finishes.
+コンシューマー Azure Functions アプリケーションはキュートリガーで実装しており、キューからメッセージを受信し順次タスクを実行します。本サンプルではタスクの実行の代わりにち任意の秒数スリープして終了します。
 
-## How to Run
+## 実行方法
 
-This sample has two ways to run.
+本サンプルには、2つの実行方法がります。
 
-1. Manual execution
-2. Execution using Docker Compose
+1. 手動による実行
+2. Docker Compose による実行
 
-The former requires the installation of a Storage emulator and Azure Functions Core Tools in your environment, and you need to start each application individually. The latter is for environments where Docker is installed. Each application runs on Docker, so there is no need to install the Storage emulator or other tools individually, and everything can be started with the `docker-compose` command.
+前者は、お使いの環境に Storage エミュレータや Azure Functions Core ツールのインストールが必要で、1つ1つ個別にアプリケーションを起動していきます。後者は、Docker がインストールされている環境向けです。個々のアプリケーションはDocker上で実行されるので、個別に Storage エミュレータ等のインストールは不要で、 `docker-compose` コマンドで全てを起動できます。
 
-### Manual Execution
+### 手動による実行方法
 
-Start the three applications manually. Open multiple terminals and run each in a different command line.
+3つのアプリケーションを手動で起動します。ターミナルを複数起動し、それぞれ異なるコマンドラインで実行してください。
 
-#### Starting the Storage Emulator
+#### ストレージエミュレータの起動
 
-Check the prerequisite links and start either the Azure Storage Emulator or the Azurite Emulator. The former may be installed with Visual Studio, but it is recommended to use the Azurite Emulator in the future.
+前提条件のリンクを確認し、Azure Storage エミュレータもしくは、Azurite エミュレータを起動します。前者は、Visual Studio に付属しているので、インストールされている可能性がありますが、今後は Azurite エミュレータの利用をお勧めします。
 
-If it is not installed, follow the documentation to install and start the Azurite Emulator. There are several ways to install and start it, so choose the method that suits your environment.
+インストールされていない場合は、ドキュメントに従ってインストールし、Azurite エミュレータを起動してください。インストール方法、起動方法はいくつかの方法がありますので、お使いの環境にあった方法で行います。
 
-Below is an example of starting the Azurite Emulator.
+以下は、Azurite エミュレータの起動例です。
 
 ```sh
 $ mkdir ~/azurite
@@ -56,16 +56,16 @@ Azurite Table service is starting at http://127.0.0.1:10002
 Azurite Table service is successfully listening at http://127.0.0.1:10002
 ```
 
-#### Starting the Producer Web Application
+#### プロデューサー Web アプリケーションの起動
 
-This is a Spring Boot Web application. Build and run it with the following commands.
+Spring Boot Web アプリケーションです。以下のコマンドでビルド、実行します。
 
 ```sh
 mvn clean pacakage
 mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=10080
 ```
 
-The port specification is set to use the same port as when started later with Docker Compose. The application will start, and the following log will be displayed.
+ポート指定は、後の Docker Compose で起動した時と同じポートを使うように指定してあります。以下のようなログが表示され、アプリケーションが起動します。
 
 ```log
   .   ____          _            __ _ _
@@ -91,9 +91,9 @@ The port specification is set to use the same port as when started later with Do
 2021-10-19 21:49:44.506  INFO 15905 --- [  restartedMain] o.p.waf.sample.lv.sb.SampleApplication   : Started SampleApplication in 11.935 seconds (JVM running for 13.125)
 ```
 
-#### Starting the Consumer Application (Azure Functions)
+#### コンシューマーアプリの起動（Azure Functions）
 
-Check the prerequisite links and install the Azure Functions Core Tools. Execution is done via `mvn`.
+前提条件のリンクを確認し、Azure Functions Core ツールのインストールを行います。実行は `mvn` 経由で行います。
 
 ```sh
 cd consumer-function
@@ -101,7 +101,7 @@ mvn clean package
 mvn azure-functions:run
 ```
 
-The following log will be displayed, and the Azure Functions application will start.
+以下のようなログが表示され、Azure Functions アプリケーションが起動します。
 
 ```log
 [INFO] Scanning for projects...
@@ -128,23 +128,22 @@ Functions:
 For detailed output, run func with --verbose flag.
 ```
 
-### How to Run Using Docker Compose
+### Docker Compose を利用した実行方法
 
-You can run this sample all at once using Docker Compose. Each application runs in a container, so there is no need to install emulators or other tools. First, run `build.sh` to build each Java application, and then create the Docker images.
-
+Docker Compose を利用して本サンプルを一括して実行することも出来ます。各アプリケーションはコンテナーで動作するので、エミュレータ等のインストールは不要です。はじめに、`build.sh` を実行して、各Javaアプリケーションをビルドし、次に Docker Image を作成します。
 
 ```sh
 build.sh
 docker-compose build
 ```
 
-Next, start the containers.
+次にコンテナを起動します。
 
 ```sh
 docker-compose up
 ```
 
-The following log will be displayed, and each container will start.
+以下のようなログが表示され、各コンテナが起動します。
 
 ```log
 Creating network "webapps-queue-functions_default" with the default driver
@@ -186,21 +185,21 @@ consumer_1  |       Host initialization: ConsecutiveErrors=0, StartupCount=1, Op
 consumer_1  | info: Microsoft.Azure.WebJobs.Hosting.OptionsLoggingService[0]
 ```
 
-The following containers will start
+以下のコンテナが起動します
 
-- Azurite Storage Emulator
-- Producer Web Application (Spring Boot Web Application)
-- Consumer Azure Functions Application (Queue Trigger)
+- Azurite ストレージエミュレーター
+- プロデューサー Webアプリケーション （Spring Boot Web アプリケーション）
+- コンシューマー Azure Functions アプリケーション（キュートリガー）
 
-## Execution Confirmation
+## 実行確認
 
-Run the following command. The parameter `10` specifies the wait time in seconds on the consumer side.
+以下のコマンドを起動します。パラメータの `10` はコンシューマ側での待機秒を指定します。
 
-```sh
+```
 curl http://localhost:10080/test/10
 ```
 
-The above command will return a response immediately, but the message, which is treated as a task, will be transmitted to the consumer Azure Functions queue trigger application through the queue. At this time, the consumer side will sequentially retrieve and process the messages from the queue, thus achieving load leveling through the queue.
+上記のコマンドは即時にレスポンスが返りますが、タスクに見立てたメッセージは、キューを通してコンシューマーである Azure Functions キュートリガーアプリケーションに伝達します。このとき、コンシュマー側では、キューのメッセージを逐次に取得し処理していくため、キューによる平準化が行われます。
 
 ```log
 [2021-10-19T13:13:02.342Z] message :       : {"id":"350a14af-fa91-4031-bd4c-43f11da144bc","value":10}
@@ -257,9 +256,9 @@ The above command will return a response immediately, but the message, which is 
 [2021-10-19T13:13:32.713Z] Executed 'Functions.Function' (Succeeded, Id=8cec03b8-b044-4665-97c3-568c21fa4ad1, Duration=10016ms)
 ```
 
-## About Consumer Settings
+## コンシューマー側の設定について
 
-In this sample, the `host.json` is set to a batch size of 1 to prevent parallel execution.
+本サンプルの `host.json` 並列実行されないように バッチサイズを1に設定しています。
 
 ```json
     "queues": {
@@ -268,8 +267,9 @@ In this sample, the `host.json` is set to a batch size of 1 to prevent parallel 
     }
 ```
 
-Refer to the following to change the settings and adjust the load on the consumer side.
+以下を参考に設定値を変更すると、コンシューマー側のメッセージの負荷を変化させることができます。
 
-* [Azure Queue storage trigger and bindings for Azure Functions overview | Microsoft Learn](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue?tabs=isolated-process%2Cextensionv5%2Cextensionv3&pivots=programming-language-java#hostjson-settings)
+* [Azure Functions における Azure Queue storage のトリガーとバインドの概要 | Microsoft Docs](https://docs.microsoft.com/ja-jp/azure/azure-functions/functions-bindings-storage-queue#hostjson-settings)
 
+以上
 
