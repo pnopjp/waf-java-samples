@@ -10,9 +10,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
-        <azure.functions.maven.plugin.version>1.31.0</azure.functions.maven.plugin.version>
-        <azure.functions.java.library.version>3.1.0</azure.functions.java.library.version>
+        <java.version>21</java.version>
+        <azure.functions.maven.plugin.version>1.41.0</azure.functions.maven.plugin.version>
+        <azure.functions.java.library.version>3.2.4</azure.functions.java.library.version>
         <functionAppName>consumer-function-20211012200706420</functionAppName>
     </properties>
 
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-queue</artifactId>
-            <version>12.24.0</version>
+            <version>12.28.2</version>
         </dependency>
     </dependencies>
 

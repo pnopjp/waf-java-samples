@@ -1,6 +1,11 @@
 # Microsoft Azure Well-Architected Framework Samples for Java
 
-### :new: 更新 2025/2
+### :new: 更新 2026/3
+
+- 更新 依存ライブラリ
+- 更新 Spring Boot Version 3.4.2 から 3.5.13
+
+### 更新 2025/2
 
 - 更新 依存ライブラリ
 - 更新 Spring Boot Version 3.2.3 から 3.4.2
