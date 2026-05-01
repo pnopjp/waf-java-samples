@@ -2,7 +2,7 @@
 
 [日本語|Japanese](./README_ja.md)
 
-### :new: Update 2025/06
+### :new: Update 2026/03
 
 - Updated dependent libraries (azure sdk ...)
 - Update Spring Boot Version 3.4.2 to 3.5.13
